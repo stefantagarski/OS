@@ -1,0 +1,17 @@
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1$ mkdir directory1
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1$ mkdir directory2
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1$ touch directory1/file123
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1/directory1$ man ls
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1/directory1$ chmod ug+rx file123
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1/directory1$ chmod 550 file123
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1/directory1$ who
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1$ cp directory1/file123 directory2/file234
+
+stefantagarski@StefanTagarski:/mnt/c/Users/ACER/Desktop/Lab1.1/zadaca1$ rm -r directory1
