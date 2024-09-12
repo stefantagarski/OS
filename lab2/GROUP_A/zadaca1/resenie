@@ -1,0 +1,163 @@
+1.
+
+docker run -it --name nginx-interactive debian:11-slim /bin/bash
+
+terminal:
+
+apt update; apt install nginx -y; exit
+
+docker commit nginx-interactive nginx-product-host-i
+
+2.
+
+docker run -it -d -p 8080:80 --name nginx-product-host-i-container nginx-product-host-i
+
+docker ps | grep nginx-product-host-i-container 
+
+docker port nginx-product-host-i-containe
+
+3. 
+
+FROM debian:11-slim
+WORKDIR /usr/share/lab_zadaca1
+EXPOSE 80
+RUN apt-get update && apt-get install -y nginx
+CMD ["nginx", "-g", "daemon off;"]
+docker build -t="nginx-product-host" .
+4.
+docker run -d -it -p 8081:80  --name nginx-product-host-container nginx-product-host
+docker port nginx-product-host-container
+80/tcp -> 0.0.0.0:8081
+docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED         STATUS         PORTS                  NAMES
+27f2039b642e   nginx-product-host     "nginx -g 'daemon of…"   2 minutes ago   Up 2 minutes   0.0.0.0:8081->80/tcp   nginx-product-host-container
+5.
+docker cp products.txt  nginx-product-host-container:/var/www/html/
+docker cp products.txt  nginx-product-host-i-container:/var/www/html/
+6.
+wget http://localhost:8080/products.txt
+wget http://localhost:8081/products.txt
+7.
+docker stop nginx-product-host-container nginx-product-host-i-container
+docker rm nginx-product-host-container nginx-product-host-i-container
+8.
+
+mkdir html 
+
+cp products.txt html/
+
+9.
+
+docker volume create my_volume
+
+docker run -it -d -p 8081:80 -v my_volume:/var/www/html/ --name  nginx-product-host-container nginx-product-host
+
+10.
+
+wget http://localhost:8081/products.txt
+
+11.
+
+FROM openjdk:11-jdk
+
+WORKDIR /usr/src/app
+
+COPY ProductsManagement.java /app
+
+RUN javac ProductsManagement.java
+
+CMD ["java", "ProductsManagement"]
+
+12.
+
+docker build -t="products-viewer" .
+
+13.
+
+docker run -it -d -p 8081:80 -v product_volume:/var/www/html/  --name products-viewer-container products-viewer
+
+14.
+
+docker logs products-viewer-container
+
+import java.io.*;
+
+
+
+public class ProductsManagement {
+
+
+
+    public static void main(String[] args) {
+
+        String path = System.getenv("PRODUCT_FILE_PATH");
+
+        if (path == null || path.isEmpty()) {
+
+            System.err.println("PRODUCT_FILE_PATH environment variable not set.");
+
+            return;
+
+        }
+
+        BufferedReader reader = null;
+
+        String line = null;
+
+        try {
+
+            reader = new BufferedReader(new InputStreamReader(new FileInputStream(path)));
+
+            while ((line = reader.readLine())!=null) {
+
+                String[] cells = line.split(";");
+
+                if (cells.length != 3) {
+
+                    throw new RuntimeException("Invalid row!");
+
+                }
+
+                System.out.printf("Product Name: %s\n", cells[0]);
+
+                System.out.printf("Product Price: %s\n", cells[1]);
+
+                System.out.printf("Product Quantity: %s\n", cells[2]);
+
+                System.out.println("\n");
+
+            }
+
+        } catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+
+        }
+
+    }
+
+}
+
+
+
+16.docker stop products-viewer-container 
+
+docker rm products-viewer-container 
+
+docker run -d -p 8081:80 -e PRODUCT_FILE_PATH=/var/www/html/products.txt --name products-viewer-container -v products_volume:/var/www/html/ products-viewer
+
+
+
+
+
+17.docker logs products-viewer-container
+
+
+
+
+
+
