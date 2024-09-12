@@ -1,0 +1,26 @@
+
+
+version: '3'
+
+services:
+
+   sound_level_sensor:
+
+    build: ./SoundLevelSensor volumes:
+
+         - ./data/:/app/data/
+
+    sound_level_monitor:
+
+    build:
+
+    context: ./SoundLevelMonitor dockerfile: Dockerfile
+
+volumes:
+
+﻿﻿./data/:/app/data/ 
+
+depends_on:
+
+﻿﻿sound_level_sensor
+
