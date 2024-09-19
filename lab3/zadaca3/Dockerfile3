@@ -1,0 +1,12 @@
+# TCP Client
+
+
+FROM openjdk:17-alpine
+
+COPY TCPClient.java /app/TCPClient.java
+
+WORKDIR /app
+
+RUN javac TCPClient.java
+
+CMD ["java", "TCPClient"]
