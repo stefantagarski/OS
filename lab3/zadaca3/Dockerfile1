@@ -1,0 +1,14 @@
+# UDP Client
+
+
+FROM openjdk:17-alpine
+
+
+COPY UDPClient.java /app/UDPClient.java
+
+WORKDIR /app
+
+RUN javac UDPClient.java
+
+
+CMD ["java", "UDPClient"]
