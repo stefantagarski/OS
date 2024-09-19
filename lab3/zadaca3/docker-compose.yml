@@ -1,0 +1,43 @@
+version: '3'
+services:
+  udp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.udp-server
+    networks:
+      - udp_network
+    ports:
+      - "12345:12345/udp" # Port for UDP server
+
+  udp-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.udp-client
+    networks:
+      - udp_network
+    deploy:
+      replicas: 5
+
+  tcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.tcp-server
+    networks:
+      - tcp_network
+    ports:
+      - "8080:8080" # Port for TCP server
+
+  tcp-client:
+    build:
+      context: .
+      dockerfile: Dockerfile.tcp-client
+    networks:
+      - tcp_network
+    deploy:
+      replicas: 5
+
+networks:
+  udp_network:
+    driver: bridge
+  tcp_network:
+    driver: bridge
